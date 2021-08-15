@@ -30,7 +30,7 @@ def predict():
 
     f = request.form['file']
     data = []
-    with open(f) as file:
+    with open(f, encoding="utf8") as file:
         csvfile = csv.reader(file)
         for row in csvfile:
             data.append(row)
