@@ -44,16 +44,18 @@ def predict():
 
     return render_template('data.html', data=data)
 '''
-    file = request.files["file"]
-    file.save(os.path.join("uploads", file.filename))
-    path_name= './uploads/'+file.filename
-    test = pd.read_csv(path_name,skiprows=21)
-    test = test.iloc[b:(a+1),1:2]
-    test = np.asarray(test)
-    test = pd.DataFrame(test.T)
-    result = loaded_model.predict(test)
-    comment = 'Kết quả là: Mẫu' + str(result)
-    return render_template("index.html", message=comment)
+    if request.method == 'POST':
+        file = request.files["file"]
+        file.save(os.path.join("uploads", file.filename))
+        path_name= './uploads/'+file.filename
+        test = pd.read_csv(path_name,skiprows=21)
+        test = test.iloc[b:(a+1),1:2]
+        test = np.asarray(test)
+        test = pd.DataFrame(test.T)
+        result = loaded_model.predict(test)
+        comment = 'Kết quả là: Mẫu' + str(result)
+        return render_template("index.html", message=comment)
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
